@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🍕 피자설기맵</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;color:#332a24;background:#fff8f1}header{height:78px;background:#fff;border-bottom:1px solid #eadfd5;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:10}h1{margin:0;font-size:24px}header p{margin:4px 0 0;color:#8a7b70;font-size:12px}.keybox{display:flex;gap:6px;align-items:center}.keybox input{width:260px;padding:9px;border:1px solid #ddd0c6;border-radius:9px}.keybox button,.btn{border:0;background:#332a24;color:white;padding:9px 11px;border-radius:9px;cursor:pointer}.wrap{height:calc(100vh - 78px);display:grid;grid-template-columns:370px 1fr}aside{background:#fff;border-right:1px solid #eadfd5;overflow:auto;padding:14px;z-index:5}.search{width:100%;padding:12px;border:1px solid #ddd0c6;border-radius:12px;font-size:15px}.filters{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.filters button{border:1px solid #ddd0c6;background:#fff;padding:6px 9px;border-radius:999px;cursor:pointer}.filters button.active{background:#332a24;color:#fff}.count{font-size:12px;color:#8a7b70;margin:10px 2px}.card{border:1px solid #eadfd5;border-radius:13px;padding:12px;margin:8px 0;background:#fff;cursor:pointer}.card:hover{box-shadow:0 4px 15px #00000012}.name{font-weight:700}.meta{font-size:12px;color:#8a7b70;line-height:1.5;margin-top:4px}.status{display:inline-block;font-size:11px;padding:4px 7px;border-radius:999px;margin-top:7px}.green{background:#e5f6e9;color:#237a39}.yellow{background:#fff3c9;color:#8b6500}.mapwrap{position:relative;min-width:0}.map{width:100%;height:100%}.popup{position:absolute;right:18px;top:18px;width:320px;max-width:calc(100% - 36px);background:#fff;border-radius:16px;padding:16px;box-shadow:0 8px 30px #0003;display:none;z-index:20}.popup.show{display:block}.close{float:right;border:0;background:#f3eee9;border-radius:50%;width:28px;height:28px;cursor:pointer}.popup h2{font-size:19px;margin:2px 35px 7px 0}.popup p{font-size:13px;line-height:1.5;margin:6px 0}.popup a{display:inline-block;margin:8px 5px 0 0;text-decoration:none;color:#fff;background:#332a24;padding:8px 10px;border-radius:9px;font-size:12px}.note{font-size:11px;color:#9b8d83;line-height:1.5;margin-top:12px}.legend{position:absolute;left:18px;bottom:18px;background:#fff;padding:9px 12px;border-radius:12px;box-shadow:0 3px 15px #0002;font-size:12px;z-index:10}.pizza-pin{font-size:31px;line-height:1;filter:drop-shadow(0 2px 2px #0005);cursor:pointer;transform:translate(-50%,-100%);transition:.12s}.pizza-pin:hover{transform:translate(-50%,-100%) scale(1.15)}.error{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;padding:20px;border-radius:15px;box-shadow:0 5px 25px #0002;max-width:460px;text-align:center;z-index:30;display:none}.error.show{display:block}.small{font-size:12px;color:#8a7b70;line-height:1.5}.loading{position:absolute;top:14px;left:50%;transform:translateX(-50%);background:#fff;padding:8px 12px;border-radius:999px;box-shadow:0 2px 12px #0002;font-size:12px;z-index:12;display:none}.loading.show{display:block}@media(max-width:850px){header{height:auto;align-items:flex-start;flex-direction:column}.keybox{width:100%}.keybox input{flex:1;width:auto}.wrap{height:calc(100vh - 123px);grid-template-columns:1fr}aside{position:absolute;left:0;bottom:0;width:100%;height:38vh;z-index:8;border-right:0;border-top:1px solid #eadfd5}.mapwrap{height:100%}.popup{top:12px;right:12px}.legend{bottom:39vh;left:10px}}
+</style>
+<!-- 카카오맵 JavaScript API: JavaScript 키를 넣어주세요. libraries=services는 주소→좌표 변환에 사용합니다. -->
+<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=52d8a41e10f4580819410363384c38d4&autoload=false&libraries=services"></script>
+</head>
+<body>
+<header>
+  <div><h1>🍕 피자설기맵</h1><p>전국 피자설기 판매처를 실제 지도에서 찾아보세요 · 2026-09-19 1차 데이터</p></div>
+  <div class="keybox"><input id="keyInput" placeholder="카카오 JavaScript 키 (최초 1회)" autocomplete="off"><button onclick="applyKey()">지도 연결</button></div>
+</header>
+<div class="wrap">
+  <aside>
+    <input id="search" class="search" placeholder="매장명·지역·시장 검색">
+    <div id="filters" class="filters"></div>
+    <div id="count" class="count"></div>
+    <div id="cards"></div>
+    <div class="small">※ 카카오맵 API를 사용하려면 카카오디벨로퍼스에서 JavaScript 키와 JavaScript SDK 도메인 등록이 필요합니다.</div>
+  </aside>
+  <main class="mapwrap">
+    <div id="map" class="map"></div>
+    <div id="loading" class="loading">📍 매장 주소를 지도에 표시하는 중…</div>
+    <div class="legend">🍕 피자설기 판매처<br>🟢 최근 판매 확인 · 🟡 추가 확인 필요</div>
+    <div id="popup" class="popup"></div>
+    <div id="error" class="error"><b>카카오맵 연결이 필요해요 🍕</b><p class="small">위의 입력칸에 카카오 JavaScript 키를 넣고 <b>지도 연결</b>을 눌러주세요.</p><p class="small">현재 파일은 실제 Kakao Maps JavaScript API를 사용하도록 만들어져 있습니다.</p></div>
+  </main>
+</div>
+<script>
+const stores=[
+{name:'영도다리떡방',region:'부산',market:'남항시장',address:'부산 영도구 남항로41번길 21',status:'green',price:'약 1,500~2,000원',source:'https://24withh.tistory.com/549',lat:35.08,lng:129.04},
+{name:'성심떡집',region:'인천',market:'부평종합시장',address:'인천 부평구 시장로51번길 7',status:'green',price:'1개 2,000원 / 2개 3,000원 사례',source:'https://24withh.tistory.com/549',lat:37.49,lng:126.72},
+{name:'풍년떡집',region:'인천',market:'부평종합시장',address:'인천 부평시장',status:'green',price:'약 2,000~2,500원 사례',source:'https://24withh.tistory.com/549',lat:37.49,lng:126.72},
+{name:'제일떡집',region:'서울',market:'면목시장',address:'서울 중랑구 면목시장 일대',status:'yellow',price:'확인 필요',source:'https://tripsoda.com/article/4403',lat:37.59,lng:127.09},
+{name:'낙원미가',region:'서울',market:'면목시장',address:'서울 중랑구 면목시장 일대',status:'yellow',price:'확인 필요',source:'https://tripsoda.com/article/4403',lat:37.59,lng:127.09},
+{name:'떡마을',region:'서울',market:'면목시장',address:'서울 중랑구 면목시장 일대',status:'yellow',price:'확인 필요',source:'https://24withh.tistory.com/549',lat:37.59,lng:127.09},
+{name:'우림떡집',region:'서울',market:'우림시장',address:'서울 중랑구 우림시장 일대',status:'yellow',price:'확인 필요',source:'https://tripsoda.com/article/4403',lat:37.59,lng:127.10},
+{name:'대흥떡집',region:'서울',market:'',address:'서울 성북구 종암로 132',status:'yellow',price:'확인 필요',source:'https://tripsoda.com/article/4403',lat:37.60,lng:127.03},
+{name:'쌀로만',region:'서울',market:'',address:'서울',status:'green',price:'확인 필요',source:'https://nowdongne.com/snack/76ba35f373d282c6',lat:37.55,lng:126.98},
+{name:'광릉떡방앗간',region:'경기',market:'',address:'경기 남양주',status:'green',price:'2,000원~',source:'https://www.daangn.com/kr/local-profile/%EA%B4%91%EB%A6%89%EB%96%A1%EB%B0%A9%EC%95%97%EA%B0%84-tsqt7xuauu2n/',lat:37.75,lng:127.15},
+{name:'한시루떡집',region:'경기',market:'',address:'수원',status:'yellow',price:'확인 필요',source:'https://v.daum.net/v/20260916165915667',lat:37.26,lng:127.03},
+{name:'자다가왠떡',region:'경기',market:'',address:'용인',status:'yellow',price:'확인 필요',source:'https://jooelee.tistory.com/18',lat:37.24,lng:127.18},
+{name:'더 시루',region:'경기',market:'',address:'광명',status:'yellow',price:'확인 필요',source:'https://jooelee.tistory.com/18',lat:37.48,lng:126.86},
+{name:'남씨네떡집',region:'대전',market:'',address:'대전 중구',status:'green',price:'6,000원',source:'https://www.namcine.co.kr/shop_view/?idx=59',lat:36.33,lng:127.42},
+{name:'공드린떡',region:'울산',market:'',address:'울산 남구',status:'green',price:'확인 필요',source:'https://www.diningcode.com/profile.php?rid=Fw7QT9rl6aiK',lat:35.54,lng:129.31},
+{name:'말랑콩떡',region:'울산',market:'',address:'울산 북구',status:'green',price:'확인 필요',source:'https://www.diningcode.com/profile.php?rid=Kmmq8w7FosWe',lat:35.58,lng:129.36},
+{name:'떡나래',region:'울산',market:'',address:'울산 남구',status:'green',price:'약 2,000원 사례',source:'https://www.diningcode.com/profile.php?rid=ar060qkCn9Mi',lat:35.54,lng:129.30},
+{name:'초원떡방앗간',region:'전북',market:'',address:'전주',status:'green',price:'확인 필요',source:'https://www.daangn.com/kr/local-profile/%EB%96%A1-m86cvpbdiq7r/',lat:35.82,lng:127.15},
+{name:'죽도당',region:'경북',market:'죽도시장',address:'포항 죽도시장',status:'green',price:'5,000원/팩 사례',source:'https://min-more.com/entry/%ED%8F%AC%ED%95%AD-%EC%A3%BD%EB%8F%84%EC%8B%9C%EC%9E%A5-%EA%B0%80%EB%B3%BC%EB%A7%8C%ED%95%9C-%EA%B3%B3-%EC%A3%BD%EB%8F%84%EB%8B%B9-%ED%94%BC%EC%9E%90%EC%84%A4%EA%B8%B0-%EB%A8%B9%EC%96%B4%EB%B3%B8-%EC%솔직%ED%9B%84%EA%B8%B0',lat:36.03,lng:129.36},
+{name:'동부떡집',region:'강원',market:'동부시장',address:'춘천 동부시장 지하',status:'green',price:'확인 필요',source:'https://v.daum.net/v/20260917000831985',lat:37.88,lng:127.73}
+];
+let map=null, overlays=[], active='전체', query='';
+const regions=['전체',...new Set(stores.map(s=>s.region))];
+const filters=document.getElementById('filters');
+regions.forEach(r=>{const b=document.createElement('button');b.textContent=r;b.onclick=()=>{active=r;document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderList();renderMap()};if(r==='전체')b.classList.add('active');filters.appendChild(b)});
+document.getElementById('search').oninput=e=>{query=e.target.value.trim().toLowerCase();renderList();renderMap()};
+function filtered(){return stores.filter(s=>(active==='전체'||s.region===active)&&(!query||[s.name,s.region,s.market,s.address].join(' ').toLowerCase().includes(query)))}
+function renderList(){const list=filtered();document.getElementById('count').textContent=`총 ${list.length}곳`;document.getElementById('cards').innerHTML=list.map(s=>`<div class="card" onclick="openStore(${stores.indexOf(s)})"><div class="name">🍕 ${s.name}</div><div class="meta">${s.region}${s.market?' · '+s.market:''}<br>${s.address}</div><span class="status ${s.status}">${s.status==='green'?'최근 판매 확인':'추가 확인 필요'}</span></div>`).join('')}
+function initMap(){
+ if(!window.kakao||!kakao.maps){document.getElementById('error').classList.add('show');return}
+ kakao.maps.load(()=>{
+   map=new kakao.maps.Map(document.getElementById('map'),{center:new kakao.maps.LatLng(36.4,127.9),level:13});
+   kakao.maps.event.addListener(map,'click',closePop);
+   document.getElementById('error').classList.remove('show');
+   renderMap();
+ });
+}
+function renderMap(){
+ if(!map)return;
+ overlays.forEach(o=>o.setMap(null));overlays=[];
+ const list=filtered();
+ document.getElementById('loading').classList.add('show');
+ const geocoder=new kakao.maps.services.Geocoder();
+ let pending=list.length;
+ if(!pending){document.getElementById('loading').classList.remove('show');return}
+ list.forEach(s=>{
+   // 실제 주소가 있는 경우 Kakao Geocoder로 좌표를 받아 정확히 표시합니다.
+   // 검색 실패 시 기존 대략 좌표를 fallback으로 사용합니다.
+   geocoder.addressSearch(s.address,(result,status)=>{
+     let lat=s.lat,lng=s.lng;
+     if(status===kakao.maps.services.Status.OK&&result[0]){lat=parseFloat(result[0].y);lng=parseFloat(result[0].x)}
+     const content=document.createElement('div');content.className='pizza-pin';content.textContent='🍕';content.title=s.name;content.onclick=()=>openStore(stores.indexOf(s));
+     const ov=new kakao.maps.CustomOverlay({map,position:new kakao.maps.LatLng(lat,lng),content,yAnchor:1,zIndex:3});
+     overlays.push(ov);pending--;if(!pending)document.getElementById('loading').classList.remove('show');
+   });
+ });
+}
+function openStore(i){const s=stores[i];const p=document.getElementById('popup');p.innerHTML=`<button class="close" onclick="closePop()">×</button><h2>🍕 ${s.name}</h2><span class="status ${s.status}">${s.status==='green'?'최근 판매 확인':'추가 확인 필요'}</span><p><b>지역</b> ${s.region}</p><p><b>시장</b> ${s.market||'미확인'}</p><p><b>주소</b> ${s.address}</p><p><b>가격</b> ${s.price}</p><a href="https://map.kakao.com/?q=${encodeURIComponent(s.address+' '+s.name)}" target="_blank">🧭 카카오맵에서 보기</a><a href="${s.source}" target="_blank">🔎 출처</a><div class="note">온라인 정보는 변동될 수 있어요. 실제 방문 전 판매 여부·시간·재고는 매장에 확인해주세요.</div>`;p.classList.add('show')}
+function closePop(){document.getElementById('popup').classList.remove('show')}
+function applyKey(){const key=document.getElementById('keyInput').value.trim();if(!key){alert('카카오 JavaScript 키를 입력해주세요.');return}localStorage.setItem('pizzaMapKakaoKey',key);location.href=location.pathname+'?kakaoKey='+encodeURIComponent(key)}
+function loadWithSavedKey(){
+ const params=new URLSearchParams(location.search);const key=params.get('kakaoKey')||localStorage.getItem('pizzaMapKakaoKey')||'52d8a41e10f4580819410363384c38d4';
+ if(key){document.getElementById('keyInput').value=key;loadKakaoScript(key)}else{document.getElementById('error').classList.add('show')}
+}
+function loadKakaoScript(key){
+ const old=document.querySelector('script[data-kakao-dynamic]');if(old)old.remove();
+ const s=document.createElement('script');s.dataset.kakaoDynamic='1';s.src='https://dapi.kakao.com/v2/maps/sdk.js?appkey='+encodeURIComponent(key)+'&autoload=false&libraries=services';s.onload=initMap;s.onerror=()=>document.getElementById('error').classList.add('show');document.head.appendChild(s);
+}
+renderList();loadWithSavedKey();
+</script>
+</body>
+</html>
