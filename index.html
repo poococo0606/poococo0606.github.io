@@ -12,7 +12,7 @@
 </head>
 <body>
 <header>
-  <div><h1>🍕 피자설기맵</h1><p>전국 피자설기 판매처를 실제 지도에서 찾아보세요 · 2026-09-19 1차 데이터</p></div>
+  <div><h1>🍕 피자설기맵</h1><p>전국 피자설기 판매처를 실제 지도에서 찾아보세요 · 2026-09-19 2차 데이터</p></div>
 
 </header>
 <div class="wrap">
@@ -36,8 +36,8 @@ const stores=[
 {name:'영도다리떡방',region:'부산',market:'남항시장',address:'부산 영도구 남항로41번길 21',status:'green',price:'약 1,500~2,000원',source:'https://24withh.tistory.com/549',lat:35.08,lng:129.04},
 {name:'성심떡집',region:'인천',market:'부평종합시장',address:'인천 부평구 시장로51번길 7',status:'green',price:'1개 2,000원 / 2개 3,000원 사례',source:'https://24withh.tistory.com/549',lat:37.49,lng:126.72},
 {name:'풍년떡집',region:'인천',market:'부평종합시장',address:'인천 부평시장',status:'green',price:'약 2,000~2,500원 사례',source:'https://24withh.tistory.com/549',lat:37.49,lng:126.72},
-{name:'제일떡집',region:'서울',market:'면목시장',address:'서울 중랑구 면목시장 일대',status:'yellow',price:'확인 필요',source:'https://tripsoda.com/article/4403',lat:37.59,lng:127.09},
-{name:'낙원미가',region:'서울',market:'면목시장',address:'서울 중랑구 면목시장 일대',status:'yellow',price:'확인 필요',source:'https://tripsoda.com/article/4403',lat:37.59,lng:127.09},
+{name:'제일떡집',region:'서울',market:'면목시장',address:'서울 중랑구 면목시장 일대',status:'green',price:'확인 필요',source:'https://www.donga.com/news/Society/article/all/20260909/134631815/1',lat:37.59,lng:127.09},
+{name:'낙원미가',region:'서울',market:'면목시장',address:'서울 중랑구 사가정로52길 22 1층 101호',status:'green',price:'확인 필요',source:'https://nowdongne.com/snack/9d697cf8372913f7',lat:37.59,lng:127.09},
 {name:'떡마을',region:'서울',market:'면목시장',address:'서울 중랑구 면목시장 일대',status:'yellow',price:'확인 필요',source:'https://24withh.tistory.com/549',lat:37.59,lng:127.09},
 {name:'우림떡집',region:'서울',market:'우림시장',address:'서울 중랑구 우림시장 일대',status:'yellow',price:'확인 필요',source:'https://tripsoda.com/article/4403',lat:37.59,lng:127.10},
 {name:'대흥떡집',region:'서울',market:'',address:'서울 성북구 종암로 132',status:'yellow',price:'확인 필요',source:'https://tripsoda.com/article/4403',lat:37.60,lng:127.03},
@@ -45,14 +45,26 @@ const stores=[
 {name:'광릉떡방앗간',region:'경기',market:'',address:'경기 남양주',status:'green',price:'2,000원~',source:'https://www.daangn.com/kr/local-profile/%EA%B4%91%EB%A6%89%EB%96%A1%EB%B0%A9%EC%95%97%EA%B0%84-tsqt7xuauu2n/',lat:37.75,lng:127.15},
 {name:'한시루떡집',region:'경기',market:'',address:'수원',status:'yellow',price:'확인 필요',source:'https://v.daum.net/v/20260916165915667',lat:37.26,lng:127.03},
 {name:'자다가왠떡',region:'경기',market:'',address:'용인',status:'yellow',price:'확인 필요',source:'https://jooelee.tistory.com/18',lat:37.24,lng:127.18},
-{name:'더 시루',region:'경기',market:'',address:'광명',status:'yellow',price:'확인 필요',source:'https://jooelee.tistory.com/18',lat:37.48,lng:126.86},
+{name:'더 시루',region:'경기',market:'',address:'경기도 광명시 오리로 346 행운드림프라자',status:'green',price:'확인 필요',source:'https://www.daangn.com/kr/local-profile/%EB%8D%94-%EC%8B%9C%EB%A3%A8-om5uircwfjv5/',lat:37.45,lng:126.88},
 {name:'남씨네떡집',region:'대전',market:'',address:'대전 중구',status:'green',price:'6,000원',source:'https://www.namcine.co.kr/shop_view/?idx=59',lat:36.33,lng:127.42},
 {name:'공드린떡',region:'울산',market:'',address:'울산 남구',status:'green',price:'확인 필요',source:'https://www.diningcode.com/profile.php?rid=Fw7QT9rl6aiK',lat:35.54,lng:129.31},
 {name:'말랑콩떡',region:'울산',market:'',address:'울산 북구',status:'green',price:'확인 필요',source:'https://www.diningcode.com/profile.php?rid=Kmmq8w7FosWe',lat:35.58,lng:129.36},
 {name:'떡나래',region:'울산',market:'',address:'울산 남구',status:'green',price:'약 2,000원 사례',source:'https://www.diningcode.com/profile.php?rid=ar060qkCn9Mi',lat:35.54,lng:129.30},
-{name:'초원떡방앗간',region:'전북',market:'',address:'전주',status:'green',price:'확인 필요',source:'https://www.daangn.com/kr/local-profile/%EB%96%A1-m86cvpbdiq7r/',lat:35.82,lng:127.15},
+{name:'초원떡방앗간',region:'전북',market:'',address:'전북 전주시 덕진구 가련산로 14',status:'green',price:'3,200원~',source:'https://www.daangn.com/kr/local-profile/%EB%96%A1-m86cvpbdiq7r/',lat:35.85,lng:127.12},
 {name:'죽도당',region:'경북',market:'죽도시장',address:'포항 죽도시장',status:'green',price:'5,000원/팩 사례',source:'https://min-more.com/entry/%ED%8F%AC%ED%95%AD-%EC%A3%BD%EB%8F%84%EC%8B%9C%EC%9E%A5-%EA%B0%80%EB%B3%BC%EB%A7%8C%ED%95%9C-%EA%B3%B3-%EC%A3%BD%EB%8F%84%EB%8B%B9-%ED%94%BC%EC%9E%90%EC%84%A4%EA%B8%B0-%EB%A8%B9%EC%96%B4%EB%B3%B8-%EC%솔직%ED%9B%84%EA%B8%B0',lat:36.03,lng:129.36},
-{name:'동부떡집',region:'강원',market:'동부시장',address:'춘천 동부시장 지하',status:'green',price:'확인 필요',source:'https://v.daum.net/v/20260917000831985',lat:37.88,lng:127.73}
+{name:'동부떡집',region:'강원',market:'동부시장',address:'춘천 동부시장 지하',status:'green',price:'확인 필요',source:'https://v.daum.net/v/20260917000831985',lat:37.88,lng:127.73},
+{name:'삼정떡집',region:'인천',market:'',address:'인천 미추홀구 석정로 430 1층',status:'green',price:'확인 필요',source:'https://nowdongne.com/snack/899d60007805310b',lat:37.46,lng:126.68},
+{name:'만나떡',region:'인천',market:'',address:'인천 남동구 구월동',status:'green',price:'확인 필요',source:'https://www.daangn.com/kr/local-profile/%EB%A7%8C%EB%82%98%EB%96%A1-41hg9o2wa7rz/',lat:37.45,lng:126.70},
+{name:'떡봄시루',region:'부산',market:'',address:'부산 연제구 과정로 207',status:'green',price:'개당 2,000원 / 1되 28개 50,000원',source:'https://www.daangn.com/kr/local-profile/%EB%96%A1%EB%B4%84%EC%8B%9C%EB%A3%A8-g26kawq6yi18/',lat:35.19,lng:129.10},
+{name:'윤대감 전통떡방',region:'부산',market:'',address:'부산 해운대구 우동1로38번가길 19',status:'green',price:'확인 필요',source:'https://www.daangn.com/kr/local-profile/%EC%9C%A4%EB%8C%80%EA%B0%90-%EC%A0%84%ED%86%B5%EB%96%A1%EB%B0%A9-54dnodoyaj5u/',lat:35.16,lng:129.16},
+{name:'해연담',region:'부산',market:'',address:'부산 수영구 연수로269번길 22 1층',status:'green',price:'확인 필요',source:'https://nowdongne.com/dessert/pizza-seolgi',lat:35.17,lng:129.11},
+{name:'두손떡방',region:'대구',market:'',address:'대구 북구 구암로17길 2 1층',status:'green',price:'확인 필요',source:'https://www.daangn.com/kr/local-profile/%EB%91%90%EC%86%90%EB%96%A1%EB%B0%A9-q42kyavrz88m/',lat:35.93,lng:128.55},
+{name:'일화손맛',region:'대구',market:'',address:'대구 남구 중앙대로42길 5 1층',status:'green',price:'2,000원 사례',source:'https://www.diningcode.com/profile.php?rid=bzHWqqc6gn6X',lat:35.85,lng:128.59},
+{name:'번개떡집',region:'경남',market:'신마산시장',address:'경남 창원시 마산합포구 신마산시장길 15',status:'green',price:'확인 필요',source:'https://nowdongne.com/dessert/pizza-seolgi',lat:35.18,lng:128.56},
+{name:'설기앤찰떡',region:'울산',market:'',address:'울산 남구 문수로435번길 6 1층',status:'green',price:'확인 필요',source:'https://nowdongne.com/dessert/pizza-seolgi',lat:35.54,lng:129.31},
+{name:'고덕떡집',region:'경기',market:'',address:'경기도 평택시 고덕갈평5길 32',status:'green',price:'확인 필요',source:'https://www.daangn.com/kr/local-profile/%EA%B3%A0%EB%8D%95%EB%96%A1%EC%A7%91-bm5c8e4ratx6/',lat:37.04,lng:127.05},
+{name:'종가떡집',region:'서울',market:'',address:'서울 강북구 한천로144길 32 1층',status:'green',price:'확인 필요',source:'https://nowdongne.com/snack/225240b92645c0b4',lat:37.64,lng:127.02},
+{name:'행복오감떡집',region:'경기',market:'',address:'경기도 안산시 상록구 월피로 22',status:'green',price:'확인 필요',source:'https://nowdongne.com/snack/4fc92174ff30a809',lat:37.33,lng:126.85}
 ];
 let map=null, overlays=[], active='전체', query='';
 const regions=['전체',...new Set(stores.map(s=>s.region))];
