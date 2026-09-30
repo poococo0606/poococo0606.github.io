@@ -101,8 +101,8 @@ function drawPins(){
    const o=new kakao.maps.CustomOverlay({position:pos,content:content,yAnchor:0});
    o.setMap(map); overlays.push(o); bounds.extend(pos); n++;
  });
- if(n>1) map.setBounds(bounds,60,60,60,60);
- else if(n===1) map.setCenter(bounds.getSouthWest());
+ // if(n>1) map.setBounds(bounds,60,60,60,60);
+ // else if(n===1) map.setCenter(bounds.getSouthWest());
 }
 
 function initMap(){
