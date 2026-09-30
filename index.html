@@ -153,7 +153,17 @@ async function drawPins(){
 
    // DB에 좌표가 있으면 그대로 사용
 
-   if(Number.isFinite(+s.latitude)&&Number.isFinite(+s.longitude)){
+   if(
+
+  s.latitude != null &&
+
+  s.longitude != null &&
+
+  Number.isFinite(Number(s.latitude)) &&
+
+  Number.isFinite(Number(s.longitude))
+
+) {
 
      addPin(s,+s.latitude,+s.longitude);
 
